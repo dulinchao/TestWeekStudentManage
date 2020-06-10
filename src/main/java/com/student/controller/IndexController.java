@@ -18,6 +18,7 @@ import java.util.List;
 public class IndexController {
     @Autowired
     private StudentService studentService;
+
     @GetMapping("/")
     public String toIndex(Model model){
         List<Student> studentList = studentService.getStudentList(null);

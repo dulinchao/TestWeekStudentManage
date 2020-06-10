@@ -19,7 +19,6 @@ function registerEmail() {
                 "password":password
             }),
             success: function (response) {
-                console.log(response)
                 if(response.code == 200){
                     window.location.href = "/";
                 }else if(response.code == 2001){

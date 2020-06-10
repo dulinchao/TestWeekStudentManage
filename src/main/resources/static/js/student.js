@@ -24,6 +24,7 @@ function addStudent() {
         success: function (response) {
             if(response.code == 200){
                 alert("添加成功")
+                window.location.href = "/";
             }
         },
         dataType: "json"
@@ -49,10 +50,11 @@ function queryStudent() {
             "lesson":lesson
         }),
         success: function (response) {
-            $('#showTable').remove()
+            $('#showTable').remove()    //删除旧表
             $('#content').append("<table class=\"table\" id=\"showTable\">\n" +
-                "</table>")
+                "</table>") //添加新的表
             for(let i=0;i<response.length;i++){
+                //遍历学生列表，添加到页面上
                 $('#showTable').append($("<tr/>", {
                     "id": 'item'+i
                 }))
@@ -157,7 +159,7 @@ function change(obj) {
 }
 
 
-function remove(obj) {
+function remove(obj) {  //将学生id传给后台
     let id = obj.getAttribute("id")
     obj.parentElement.parentElement.remove()
     $.ajax({
