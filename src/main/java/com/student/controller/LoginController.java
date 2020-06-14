@@ -50,4 +50,11 @@ public class LoginController {
         session.setAttribute("user",queryUser);
         return ResultDTO.okOf();
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
 }

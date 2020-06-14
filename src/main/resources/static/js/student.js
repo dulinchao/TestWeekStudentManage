@@ -30,13 +30,14 @@ function addStudent() {
         dataType: "json"
     });
 }
-function queryStudent() {
+function queryStudent(obj) {
     var name = $('#addName').val();
     var addClass = $('#addClass').val();
     var sex = $('#addSex').val();
     var grade = $('#addGrade').val();
     var lesson = $('#addLesson').val();
 
+    var identity = obj.value;
 
     $.ajax({
         type: "POST",
@@ -73,12 +74,18 @@ function queryStudent() {
                 })).append($("<td/>", {
                     "text": response[i].lesson,
                     "style":"width: 15%;padding: 8px;border-top: 1px solid #333;"
-                })).append(" <td style=\"width: 25%;padding: 8px;border-top: 1px solid #333\">\n" +
-                    "<a id="+response[i].id+" "+
-                    "onclick=\"change(this)\">修改 </a>\n" +
-                    "<a id="+response[i].id+" "+
-                    "onclick=\"remove(this)\"> 删除</a>\n" +
-                    "</td>")
+                }))
+                if(identity==='管理员'){
+                    $('#item'+i).append(" <td style=\"width: 25%;padding: 8px;border-top: 1px solid #333\">\n" +
+                        "<a id="+response[i].id+" "+
+                        "onclick=\"change(this)\">修改 </a>\n" +
+                        "<a id="+response[i].id+" "+
+                        "onclick=\"remove(this)\"> 删除</a>\n" +
+                        "</td>")
+                }else {
+                    $('#item'+i).append(" <td style=\"width: 25%;padding: 8px;border-top: 1px solid #333\">\n" +
+                        "</td>")
+                }
             }
         },
         dataType: "json"

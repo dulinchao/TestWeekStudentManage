@@ -37,7 +37,7 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">你好</a></li>
+                            <li><a href="/logout">退出</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -102,8 +102,8 @@
                     <option value="Java开发">Java开发</option>
                 </select>
             </div>
-            <button class="btn btn-default" onclick="addStudent()">添加学生信息</button>
-            <button class="btn btn-default" onclick="queryStudent()">查询学生信息</button>
+            <button class="btn btn-default" onclick="addStudent()" th:if="${session.user.getIdentity()=='管理员'}">添加学生信息</button>
+            <button class="btn btn-default" onclick="queryStudent(this)" th:value="${session.user.getIdentity()}">查询学生信息</button>
         </div>
         <table class="table" style="margin-top: 10px">
             <tr>
@@ -123,8 +123,8 @@
                 <td th:text="${student.getGrade()}" width="15%"></td>
                 <td th:text="${student.getLesson()}" width="15%"></td>
                 <td width="25%">
-                    <a th:id="${student.getId()}" onclick="change(this)">修改 </a>
-                    <a th:id="${student.getId()}" onclick="remove(this)"> 删除</a>
+                    <a th:id="${student.getId()}" onclick="change(this)" th:if="${session.user.getIdentity()=='管理员'}">修改 </a>
+                    <a th:id="${student.getId()}" onclick="remove(this)" th:if="${session.user.getIdentity()=='管理员'}"> 删除</a>
                 </td>
             </tr>
         </table>

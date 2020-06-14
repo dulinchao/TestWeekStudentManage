@@ -2,8 +2,9 @@ function registerEmail() {
     var userName = $('#InputName').val();
     var email = $('#InputEmail').val();
     var password = $('#InputPassword').val();
+    var identity = $('#InputIdentity').val();
 
-    if(!userName || !email || !password){
+    if(!userName || !email || !password || !identity){
         alert("不能为空哦");
         return
     }
@@ -16,7 +17,8 @@ function registerEmail() {
             data: JSON.stringify({
                 "userName": userName,
                 "email": email,
-                "password":password
+                "password":password,
+                "identity":identity
             }),
             success: function (response) {
                 if(response.code == 200){

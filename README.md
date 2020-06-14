@@ -21,6 +21,7 @@ create table USER
     USER_NAME VARCHAR(100),
     EMAIL     VARCHAR(50),
     PASSWORD  VARCHAR(50),
+    IDENTITY  VARCHAR(20),
     constraint USER_PK
         primary key (ID)
 );
