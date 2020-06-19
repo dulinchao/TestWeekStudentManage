@@ -47,26 +47,30 @@
     <div class="register" th:if="${session.user == null}">
         <div>
             <div class="form-group">
-                <label for="InputEmail">邮箱</label>
-                <input type="email" class="form-control" id="InputEmail" placeholder="Email">
+                <label for="InputId">学号</label>
+                <input type="text" class="form-control" id="InputId" placeholder="StudentId">
             </div>
             <div class="form-group">
                 <label for="InputPassword">密码</label>
                 <input type="password" class="form-control" id="InputPassword" placeholder="Password">
             </div>
-            <button class="btn btn-default" onclick="loginEmail()">登录</button>
+            <button class="btn btn-default" onclick="login()">登录</button>
             <a href="/toRegister">没有账号？去注册</a>
         </div>
     </div>
-    <div th:if="${session.user!=null}" id="content">
-        <div class="form-inline">
+    <div id="content">
+        <form class="form-inline" action="/getQuery" th:if="${session.user != null and session.user.getIdentity() == '管理员'}">
+            <div class="form-group">
+                <label for="addId">学号</label>
+                <input type="text" class="form-control" id="addId" placeholder="学号" name="id">
+            </div>
             <div class="form-group">
                 <label for="addName">姓名</label>
-                <input type="text" class="form-control" id="addName" placeholder="姓名">
+                <input type="text" class="form-control" id="addName" placeholder="姓名" name="name">
             </div>
             <div class="form-group">
                 <label for="addClass">班级</label>
-                <select id="addClass" class="form-control">
+                <select id="addClass" class="form-control" name="className">
                     <option></option>
                     <option value="一班">一班</option>
                     <option value="二班">二班</option>
@@ -76,7 +80,7 @@
             </div>
             <div class="form-group">
                 <label for="addSex">性别</label>
-                <select id="addSex" class="form-control">
+                <select id="addSex" class="form-control" name="sex">
                     <option></option>
                     <option value="男">男</option>
                     <option value="女">女</option>
@@ -84,7 +88,7 @@
             </div>
             <div class="form-group">
                 <label for="addGrade">年级</label>
-                <select id="addGrade" class="form-control">
+                <select id="addGrade" class="form-control" name="grade">
                     <option></option>
                     <option value="2017">2017</option>
                     <option value="2018">2018</option>
@@ -92,39 +96,60 @@
                     <option value="2020">2020</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="addLesson">课程</label>
-                <select id="addLesson" class="form-control">
-                    <option></option>
-                    <option value="离散数学">离散数学</option>
-                    <option value="计算机网络">计算机网络</option>
-                    <option value="数据结构">数据结构</option>
-                    <option value="Java开发">Java开发</option>
-                </select>
-            </div>
-            <button class="btn btn-default" onclick="addStudent()" th:if="${session.user.getIdentity()=='管理员'}">添加学生信息</button>
-            <button class="btn btn-default" onclick="queryStudent(this)" th:value="${session.user.getIdentity()}">查询学生信息</button>
-        </div>
-        <table class="table" style="margin-top: 10px">
+            <button class="btn btn-default" type="button" onclick="addStudent()" >添加学生信息</button>
+            <button class="btn btn-default" type="submit" value="管理员">查询学生信息</button>
+        </form>
+        <table class="table" style="margin-top: 10px" th:if="${session.user!=null}">
             <tr>
-                <th width="15%">姓名</th>
+                <th width="15%">学号</th>
+                <th width="10%">姓名</th>
                 <th width="15%">班级</th>
                 <th width="15%">性别</th>
                 <th width="15%">年级</th>
                 <th width="15%">课程</th>
-                <th width="25">选项</th>
+                <th width="15%">选项</th>
             </tr>
         </table>
-        <table class="table"  id="showTable">
+        <table class="table"  id="showTable" th:if="${session.user!=null}">
+<!--            th:each遍历students   ${名字}获取值studentList-->
             <tr th:each="student:${students}">
-                <td th:text="${student.getName()}" width="15%"></td>
+                <td th:text="${student.getId()}" width="15%"></td>
+                <td th:text="${student.getName()}" width="10%"></td>
                 <td th:text="${student.getClassName()}" width="15%"></td>
                 <td th:text="${student.getSex()}" width="15%"></td>
                 <td th:text="${student.getGrade()}" width="15%"></td>
-                <td th:text="${student.getLesson()}" width="15%"></td>
-                <td width="25%">
-                    <a th:id="${student.getId()}" onclick="change(this)" th:if="${session.user.getIdentity()=='管理员'}">修改 </a>
-                    <a th:id="${student.getId()}" onclick="remove(this)" th:if="${session.user.getIdentity()=='管理员'}"> 删除</a>
+                <td width="15%">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" th:data-target="'#myModal'+${student.getId()}"
+                        style="height: 25px;font-size: 2px;padding-top: 4px;">
+                        查看课程
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" th:id="'myModal'+${student.getId()}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">所选课程</h4>
+                                </div>
+                                <div class="modal-body" th:id="'ModalBody'+${student.getId()}">
+                                    <div th:each="aLesson:${student.getLesson()}">
+                                        <input type="text" th:value="${aLesson}">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="deleteLesson(this)"></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" onclick="addLesson(this)"></span>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submitLesson(this)" th:id="${student.getId()}">保存更改</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td width="15%">
+                    <a th:id="${student.getId()}" onclick="change(this)" th:if="${session.user != null and session.user.getIdentity() == '管理员'}">修改 </a>
+                    <a th:id="${student.getId()}" onclick="remove(this)" th:if="${session.user != null and session.user.getIdentity() == '管理员'}"> 删除</a>
                 </td>
             </tr>
         </table>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.student.mapper.LessonMapper">
+    <insert id="insertLesson">
+        insert into lesson(student_id,lesson) values (#{id},#{lesson})
+    </insert>
+    <delete id="deleteLessons">
+        delete from lesson where student_id=#{id}
+    </delete>
+    <select id="getLessons" resultType="java.lang.String">
+        select lesson from lesson where student_id=#{id}
+    </select>
+</mapper>

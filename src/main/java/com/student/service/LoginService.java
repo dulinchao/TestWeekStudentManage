@@ -11,7 +11,7 @@ public class LoginService {
     private LoginMapper loginMapper;
 
     public User queryUser(User user){
-        return loginMapper.queryUser(user.getEmail());
+        return loginMapper.queryUser(user.getId());
     }
 
     public void addUser(User user) {

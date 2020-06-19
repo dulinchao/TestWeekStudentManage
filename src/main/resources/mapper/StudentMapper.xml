@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.student.mapper.StudentMapper">
     <insert id="insertStudent" parameterType="com.student.pojo.Student">
-        insert into students (name, class_name, sex, grade, lesson)
-        values (#{name}, #{className}, #{sex}, #{grade}, #{lesson})
+        insert into students (id,name, class_name, sex, grade)
+        values (#{id},#{name}, #{className}, #{sex}, #{grade})
     </insert>
     <update id="updateStudent" parameterType="com.student.pojo.Student">
-        update students set name=#{name},class_name=#{className},sex=#{sex},grade=#{grade},lesson=#{lesson} where id=#{id}
+        update students set id=#{id},name=#{name},class_name=#{className},sex=#{sex},grade=#{grade}where id=#{id}
     </update>
     <delete id="deleteStudent">
         delete from students where id=#{id}
@@ -28,9 +28,6 @@
             </if>
             <if test="grade != null">
                 and grade=#{grade}
-            </if>
-            <if test="lesson != null">
-                and lesson=#{lesson}
             </if>
         </where>
     </select>

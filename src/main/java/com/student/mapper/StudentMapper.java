@@ -9,7 +9,7 @@ public interface StudentMapper {
 
     List<Student> getStudent(Student student);
 
-    void deleteStudent(Integer id);
+    void deleteStudent(String id);
 
     void updateStudent(Student student);
 }
