@@ -35,7 +35,8 @@ public class IndexController {
     public Object login(@RequestBody Student student){
         Student query = new Student();
         query.setId(student.getId());
-        if(studentMapper.getStudent(query)!=null){
+        List<Student> students = studentMapper.getStudent(query);
+        if(students.size() > 0){
             return ResultDTO.errorOf(CustomizeErrorCode.STUDENT_ALREADY_EXIST);
         }
 

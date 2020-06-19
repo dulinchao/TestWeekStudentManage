@@ -26,3 +26,13 @@ create table USER
         primary key (ID)
 );
 ```
+```sql
+create table LESSON
+(
+    STUDENT_ID VARCHAR(20) not null,
+    LESSON     VARCHAR(30) not null,
+    ID         INT auto_increment,
+    constraint LESSON_PK
+        primary key (ID)
+);
+```

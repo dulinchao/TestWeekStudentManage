@@ -51,7 +51,6 @@ public class LoginController {
 
         CustomizeErrorCode notAdmin = CustomizeErrorCode.NOT_ADMIN;
         notAdmin.setMessage(user.getId());
-        System.out.println(ResultDTO.errorOf(notAdmin));
         if(!queryUser.getIdentity().equals("管理员")) return ResultDTO.errorOf(notAdmin);
         return ResultDTO.okOf();
     }
