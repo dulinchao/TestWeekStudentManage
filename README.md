@@ -4,12 +4,11 @@
 ```sql
 create table STUDENTS
 (
-    ID         INT auto_increment,
+    ID         VARCHAR(20) not null,
     NAME       VARCHAR(50),
     CLASS_NAME VARCHAR(20),
     SEX        VARCHAR(10),
     GRADE      VARCHAR(20),
-    LESSON     VARCHAR(20),
     constraint STUDENTS_PK
         primary key (ID)
 );
@@ -17,9 +16,8 @@ create table STUDENTS
 ```sql
 create table USER
 (
-    ID        INT auto_increment,
+    ID        VARCHAR(20) not null,
     USER_NAME VARCHAR(100),
-    EMAIL     VARCHAR(50),
     PASSWORD  VARCHAR(50),
     IDENTITY  VARCHAR(20),
     constraint USER_PK
